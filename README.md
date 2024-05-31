@@ -33,24 +33,29 @@ This project provides a Python script to map alert signatures to MITRE ATT&CK te
    git clone https://github.com/Dan-Duran/mitre-attack-mapper.git
    cd mitre-attack-mapper
    ```
+   - This will clone the repository from GitHub and navigate into the project directory.
 
 2. **Create and activate a virtual environment**:
 
-    ### Linux/Mac
-    ```sh
-    python3 -m venv venv
-    source venv/bin/activate
-    ```
-    ### Windows
-    ```sh
-    py -m venv venv
-    venv\Scripts\activate
-    ```
+   ### Linux/Mac
+   ```sh
+   python3 -m venv venv
+   source venv/bin/activate
+   ```
+   - This will create a virtual environment and activate it on Linux or Mac.
+
+   ### Windows
+   ```sh
+   py -m venv venv
+   venv\Scripts\activate
+   ```
+   - This will create a virtual environment and activate it on Windows.
 
 3. **Install the required packages**:
    ```sh
    pip install -r requirements.txt
    ```
+   - This will install the necessary packages listed in `requirements.txt`.
 
 ## Usage
 
@@ -58,13 +63,16 @@ This project provides a Python script to map alert signatures to MITRE ATT&CK te
    ```sh
    python mitre.py
    ```
+   - This command starts the script.
 
 2. **Enter the alert signature when prompted**:
    ```
    Enter the alert signature:
    ```
+   - The user is prompted to input an alert signature.
 
 3. **View the detailed information about the matched MITRE ATT&CK techniques**.
+   - The script will output the matched techniques to the console and also save them to a file in the `output` directory.
 
 ## File Structure
 
@@ -96,6 +104,8 @@ Technique ID: T1190
 Name: Exploit Public-Facing Application
 Description: Adversaries may attempt to exploit public-facing applications.
 URL: https://attack.mitre.org/techniques/T1190/
+
+Results written to output/result_20240531_090117.txt
 ```
 
 ## Contributing
@@ -104,4 +114,4 @@ We welcome contributions!
 
 ## License
 
-This project is licensed under the MIT License 
+This project is licensed under the MIT License.
