@@ -46,7 +46,7 @@ This project provides a Python script to map alert signatures to MITRE ATT&CK te
 
    ### Windows
    ```sh
-   py -m venv venv
+   py<or python> -m venv venv 
    venv\Scripts\activate
    ```
    - This will create a virtual environment and activate it on Windows.
