@@ -35,6 +35,7 @@ This project provides a Python script to map alert signatures to MITRE ATT&CK te
    ```
 
 2. **Create and activate a virtual environment**:
+
 ### Linux/Mac
    ```sh
    python3 -m venv venv
@@ -43,7 +44,7 @@ This project provides a Python script to map alert signatures to MITRE ATT&CK te
 ### Windows
    ```sh
    py -m venv venv
-   source venv/Scripts/activate
+   venv\Scripts\activate
    ```
 
 3. **Install the required packages**:
