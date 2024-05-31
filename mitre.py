@@ -55,7 +55,6 @@ def extract_signature_from_input():
     signature = re.sub(r'\[.*?\]', '', signature)
     return signature.strip()
 
-
 def clean_signature(signature):
     """Remove special characters from a signature."""
     return re.sub(r'[^\w\s]', '', signature)
