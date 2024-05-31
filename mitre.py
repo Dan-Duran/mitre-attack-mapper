@@ -3,6 +3,7 @@ import os
 import requests
 from fuzzywuzzy import process
 from mitreattack.stix20 import MitreAttackData
+from datetime import datetime
 
 # URL to the latest MITRE ATT&CK STIX data
 stix_url = 'https://raw.githubusercontent.com/mitre-attack/attack-stix-data/master/enterprise-attack/enterprise-attack.json'
@@ -69,38 +70,71 @@ def fetch_technique_details(technique_ids):
             techniques.append(technique)
     return techniques
 
-def main():
+def write_output_to_file(output):
+    """Write the output to a timestamped text file in the output directory."""
+    if not os.path.exists('output'):
+        os.makedirs('output')
+    
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f'output/result_{timestamp}.txt'
+    with open(filename, 'w') as file:
+        file.write(output)
+    print(f"Results written to {filename}")
+
+def main_menu():
+    while True:
+        print("\nMain Menu")
+        print("1. Enter the alert signature")
+        print("2. Exit")
+        choice = input("Enter your choice: ").strip()
+        
+        if choice == '1':
+            process_alert_signature()
+        elif choice == '2':
+            print("Exiting the application.")
+            break
+        else:
+            print("Invalid choice. Please enter 1 or 2.")
+
+def process_alert_signature():
     # Prompt the user to enter the signature manually
     signature = extract_signature_from_input()
     if signature:
-        print(f"Entered Signature: {signature}")
+        output = ""
+        output += f"Entered Signature: {signature}\n"
         # Find the corresponding MITRE techniques
         technique_ids = find_mitre_techniques(signature, signature_to_mitre)
         if not technique_ids:
-            print("No matching MITRE techniques found.")
+            output += "No matching MITRE techniques found.\n"
+            print(output)
+            write_output_to_file(output)
             return
 
         # Fetch detailed information for each matched technique
         techniques = fetch_technique_details(technique_ids)
         
         if techniques:
-            print("Matched MITRE Techniques:")
+            output += "Matched MITRE Techniques:\n"
             for technique in techniques:
-                print(f"\nTechnique ID: {technique['external_references'][0]['external_id']}")
-                print(f"Name: {technique['name']}")
+                output += f"\nTechnique ID: {technique['external_references'][0]['external_id']}\n"
+                output += f"Name: {technique['name']}\n"
                 description = technique.get('description', 'No description available')
-                print(f"Description: {description[:400]}")  # Truncate description to 400 characters
-                print(f"URL: {technique['external_references'][0]['url']}")
+                output += f"Description: {description[:400]}\n"  # Truncate description to 400 characters
+                output += f"URL: {technique['external_references'][0]['url']}\n"
                 if 'x_mitre_platforms' in technique:
-                    print(f"Platforms: {', '.join(technique['x_mitre_platforms'])}")
+                    output += f"Platforms: {', '.join(technique['x_mitre_platforms'])}\n"
                 if 'x_mitre_tactic_type' in technique:
-                    print(f"Tactic: {', '.join(technique['x_mitre_tactic_type'])}")
+                    output += f"Tactic: {', '.join(technique['x_mitre_tactic_type'])}\n"
                 if 'created' in technique:
-                    print(f"Created: {technique['created']}")
+                    output += f"Created: {technique['created']}\n"
                 if 'modified' in technique:
-                    print(f"Last Modified: {technique['modified']}")
+                    output += f"Last Modified: {technique['modified']}\n"
+            print(output)
+            write_output_to_file(output)
         else:
-            print("No detailed information found for the matched techniques.")
+            output += "No detailed information found for the matched techniques.\n"
+            print(output)
+            write_output_to_file(output)
 
 if __name__ == "__main__":
-    main()
+    main_menu()
