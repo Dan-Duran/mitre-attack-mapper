@@ -1,5 +1,6 @@
 import json
 import os
+import re
 import requests
 from fuzzywuzzy import process
 from mitreattack.stix20 import MitreAttackData
@@ -47,16 +48,24 @@ signature_to_mitre = {
 }
 
 def extract_signature_from_input():
-    """Prompt the user to enter the signature manually."""
+    """Prompt the user to enter the signature manually and clean it."""
     print("Enter the alert signature:")
-    signature = input().strip().lower()
-    return signature
+    signature = input().strip()
+    # Correctly remove content inside square brackets including the brackets
+    signature = re.sub(r'\[.*?\]', '', signature)
+    return signature.strip()
+
+
+def clean_signature(signature):
+    """Remove special characters from a signature."""
+    return re.sub(r'[^\w\s]', '', signature)
 
 def find_mitre_techniques(signature, techniques_db):
     """Find corresponding MITRE techniques using fuzzy matching."""
-    best_match = process.extractOne(signature, techniques_db.keys(), score_cutoff=75)
+    cleaned_techniques_db = {clean_signature(k): v for k, v in techniques_db.items()}
+    best_match = process.extractOne(signature, cleaned_techniques_db.keys(), score_cutoff=75)
     if best_match:
-        return techniques_db[best_match[0]]
+        return cleaned_techniques_db[best_match[0]]
     else:
         return []
 
