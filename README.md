@@ -51,17 +51,11 @@ This project provides a Python script to map alert signatures to MITRE ATT&CK te
    ```
    - This will create a virtual environment and activate it on Windows.
 
-3. **Install mitreattack-python**
-   ```sh
-   pip install mitreattack-python
-   ```
-   - This will install the Python library and utilities for working with MITRE ATT&CK.
-
-4. **Install the required packages**:
+3. **Install the required packages**:
    ```sh
    pip install -r requirements.txt
    ```
-   - This will install the necessary packages listed in `requirements.txt`.
+   - This will install the necessary packages listed in `requirements.txt`, including the Python library and utilities for working with MITRE ATT&CK.
 
 ## Usage
 
